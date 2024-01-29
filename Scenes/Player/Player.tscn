@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://dg82vswbfskf0"]
+
+[ext_resource type="Texture2D" uid="uid://dmie75xs6x1jd" path="res://Chips.png" id="1_vfkxd"]
+[ext_resource type="Texture2D" uid="uid://pri20qwpju0r" path="res://Scenes/Card/CardImages/Placeholder.png" id="2_aj5ks"]
+[ext_resource type="PackedScene" uid="uid://cdrp0hlfnf7c0" path="res://Scenes/Card/Card.tscn" id="2_wty00"]
+[ext_resource type="Script" path="res://Scripts/fold.gd" id="4_vcg4l"]
+
+[node name="Player" type="HBoxContainer"]
+offset_left = 45.0
+offset_top = 59.0
+offset_right = 363.0
+offset_bottom = 156.0
+
+[node name="ChipsInfo" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ChipsGraphics" type="TextureRect" parent="ChipsInfo"]
+layout_mode = 2
+texture = ExtResource("1_vfkxd")
+
+[node name="ChipCount" type="Label" parent="ChipsInfo"]
+layout_mode = 2
+text = "500"
+
+[node name="Cards" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Card2" parent="Cards" instance=ExtResource("2_wty00")]
+layout_mode = 2
+texture = ExtResource("2_aj5ks")
+
+[node name="Card1" parent="Cards" instance=ExtResource("2_wty00")]
+layout_mode = 2
+texture = ExtResource("2_aj5ks")
+
+[node name="Actions" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="FoldButton" type="Button" parent="Actions"]
+layout_mode = 2
+text = "Fold"
+script = ExtResource("4_vcg4l")
+
+[node name="CheckButton" type="Button" parent="Actions"]
+layout_mode = 2
+text = "Check"
+
+[node name="Bet_RaiseButton" type="Button" parent="Actions"]
+layout_mode = 2
+text = "Bet / Raise (0)"

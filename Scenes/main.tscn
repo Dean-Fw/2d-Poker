@@ -5,8 +5,5 @@
 
 [node name="PokerGame" type="Node"]
 
-[node name="Dealer" type="Node2D" parent="."]
-visible = false
-script = ExtResource("2_21o7v")
-
 [node name="Table" parent="." instance=ExtResource("2_0tn50")]
+script = ExtResource("2_21o7v")
