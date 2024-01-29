@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c61fno6em4xf5"]
+
+[ext_resource type="PackedScene" uid="uid://07twer40e5ku" path="res://Scenes/Table/Table.tscn" id="2_0tn50"]
+[ext_resource type="Script" path="res://Scenes/Dealer/Dealer.gd" id="2_21o7v"]
+
+[node name="PokerGame" type="Node"]
+
+[node name="Dealer" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2_21o7v")
+
+[node name="Table" parent="." instance=ExtResource("2_0tn50")]

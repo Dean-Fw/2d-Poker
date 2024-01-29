@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3lnfli8a1jry"]
+
+[ext_resource type="Script" path="res://Scenes/Card/Card.gd" id="1_we76d"]
+
+[node name="Card" type="Sprite2D"]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_we76d")
