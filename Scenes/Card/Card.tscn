@@ -1,7 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdrp0hlfnf7c0"]
+[gd_scene load_steps=3 format=3 uid="uid://cdrp0hlfnf7c0"]
 
+[ext_resource type="Texture2D" uid="uid://pri20qwpju0r" path="res://Scenes/Card/CardImages/Placeholder.png" id="1_c2fdr"]
 [ext_resource type="Script" path="res://Scenes/Card/Card.gd" id="1_we76d"]
 
 [node name="Card" type="TextureRect"]
+offset_top = 4.0
+offset_right = 71.0
+offset_bottom = 104.0
+texture = ExtResource("1_c2fdr")
 expand_mode = 2
 script = ExtResource("1_we76d")

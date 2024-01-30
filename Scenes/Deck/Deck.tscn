@@ -2,5 +2,8 @@
 
 [ext_resource type="Script" path="res://Scenes/Deck/Deck.gd" id="1_nyqh6"]
 
-[node name="Deck" type="Node2D"]
+[node name="Deck" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_nyqh6")

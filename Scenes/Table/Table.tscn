@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://07twer40e5ku"]
+[gd_scene load_steps=4 format=3 uid="uid://07twer40e5ku"]
 
 [ext_resource type="Texture2D" uid="uid://dvwnrd0seyfio" path="res://Poker-Table.jpg" id="1_2g61k"]
 [ext_resource type="PackedScene" uid="uid://dg82vswbfskf0" path="res://Scenes/Player/Player.tscn" id="2_w83bn"]
+[ext_resource type="Script" path="res://Scenes/Dealer/Dealer.gd" id="3_s63rv"]
 
 [node name="Table" type="TextureRect"]
 anchors_preset = 15
@@ -11,16 +12,24 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_2g61k")
 
-[node name="CenterOfTable" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 419.0
-offset_top = 283.0
-offset_right = 729.0
-offset_bottom = 365.0
-
 [node name="Player" parent="." instance=ExtResource("2_w83bn")]
 layout_mode = 0
-offset_left = 445.0
-offset_top = 434.0
-offset_right = 798.0
-offset_bottom = 500.0
+offset_left = 768.0
+offset_top = 389.0
+offset_right = 1131.0
+offset_bottom = 493.0
+
+[node name="CenterOfTable" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 476.0
+offset_right = 1215.0
+offset_bottom = 601.0
+
+[node name="Dealer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_s63rv")
+
+[connection signal="cards_to_deal" from="Dealer" to="Player" method="_on_dealer_cards_to_deal"]
