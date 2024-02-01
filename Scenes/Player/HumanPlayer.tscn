@@ -6,28 +6,34 @@
 [node name="HumanPlayer" instance=ExtResource("1_6rq8b")]
 script = ExtResource("2_w8mko")
 
-[node name="HumanActions" type="VBoxContainer" parent="." index="2"]
+[node name="HumanActions" type="VBoxContainer" parent="PlayerSpace" index="2"]
 layout_mode = 2
 
-[node name="BetOrRaise2" type="Button" parent="HumanActions" index="0"]
+[node name="BetOrRaise" type="Button" parent="PlayerSpace/HumanActions" index="0"]
 layout_mode = 2
+focus_mode = 0
+disabled = true
 text = "Bet"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HumanActions" index="1"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PlayerSpace/HumanActions" index="1"]
 layout_mode = 2
 alignment = 1
 
-[node name="Fold" type="Button" parent="HumanActions/HBoxContainer2" index="0"]
+[node name="Fold" type="Button" parent="PlayerSpace/HumanActions/HBoxContainer2" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
+disabled = true
 text = "Fold
 "
 
-[node name="Check" type="Button" parent="HumanActions/HBoxContainer2" index="1"]
+[node name="Check" type="Button" parent="PlayerSpace/HumanActions/HBoxContainer2" index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+disabled = true
 text = "Check"
 
-[connection signal="child_entered_tree" from="Cards" to="." method="_on_cards_child_entered_tree"]
-[connection signal="pressed" from="HumanActions/HBoxContainer2/Fold" to="." method="_on_fold_pressed"]
+[connection signal="child_entered_tree" from="PlayerSpace/Cards" to="." method="_on_cards_child_entered_tree"]
+[connection signal="pressed" from="PlayerSpace/HumanActions/BetOrRaise" to="." method="_on_bet_or_raise_pressed"]
+[connection signal="pressed" from="PlayerSpace/HumanActions/HBoxContainer2/Fold" to="." method="_on_fold_pressed"]

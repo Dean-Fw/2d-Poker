@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://gxorj8d0estk"]
+
+[ext_resource type="Texture2D" uid="uid://dmie75xs6x1jd" path="res://Assets/Chips.png" id="1_6x4mj"]
+
+[node name="ChipsInfo" type="VBoxContainer"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="ChipsGraphics" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_6x4mj")
+
+[node name="ChipCount" type="Label" parent="."]
+layout_mode = 2
+text = "500"
+horizontal_alignment = 1

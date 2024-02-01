@@ -5,11 +5,11 @@ extends TextureRect
 @export var value: int
 @export var suit: String
 
-const card_back = preload("res://Scenes/Card/CardImages/backOfCard.png")
+const card_back = preload("res://Assets/CardImages/backOfCard.png")
 
 func _turn_card() -> void:
 	# Take suit and value and assign a texture
-	var card_texture = load("res://Scenes/Card/CardImages/"+ _change_value_to_name() + "_of_" + suit + ".png")
+	var card_texture = load("res://Assets/CardImages/"+ _change_value_to_name() + "_of_" + suit + ".png")
 	self.texture = card_texture
 
 func _set_suit(given_suit: String) -> CardClass:

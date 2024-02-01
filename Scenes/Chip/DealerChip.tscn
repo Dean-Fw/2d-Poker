@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://jr7axxk256vu"]
+
+[ext_resource type="Texture2D" uid="uid://qyt4pgh2oqc0" path="res://Assets/DealerChip.jpg" id="1_0qgwm"]
+
+[node name="DealerChip" type="TextureRect"]
+offset_right = 41.0
+offset_bottom = 42.0
+texture = ExtResource("1_0qgwm")
+expand_mode = 4

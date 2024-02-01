@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdrp0hlfnf7c0"]
 
-[ext_resource type="Texture2D" uid="uid://pri20qwpju0r" path="res://Scenes/Card/CardImages/Placeholder.png" id="1_c2fdr"]
+[ext_resource type="Texture2D" uid="uid://pri20qwpju0r" path="res://Assets/CardImages/Placeholder.png" id="1_c2fdr"]
 [ext_resource type="Script" path="res://Scenes/Card/Card.gd" id="1_we76d"]
 
 [node name="Card" type="TextureRect"]

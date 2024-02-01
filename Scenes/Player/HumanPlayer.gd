@@ -1,12 +1,22 @@
-extends "res://Scenes/Player/Player.gd"
+class_name HumanPlayer extends "res://Scenes/Player/PlayerScript.gd"
 
 var player_card_holder
 
 func _on_fold_pressed() -> void:
-	player_card_holder = get_node("Cards")
-	_clear_cards()
-	_add_place_holder_cards()
+	_fold_cards()
 
-
-func _on_cards_child_entered_tree(node):
+func _on_cards_child_entered_tree(node: CardClass) -> void:
 	_show_cards()
+
+func _on_bet_or_raise_pressed() -> void:
+	_bet_chips(5)
+
+func _on_game_manager_change_players_turn(player: Player):
+	if player == self:
+		get_node("PlayerSpace/HumanActions/BetOrRaise").disabled = false
+		get_node("PlayerSpace/HumanActions/HBoxContainer2/Check").disabled = false
+		get_node("PlayerSpace/HumanActions/HBoxContainer2/Fold").disabled = false
+	else:
+		get_node("PlayerSpace/HumanActions/BetOrRaise").disabled = true
+		get_node("PlayerSpace/HumanActions/HBoxContainer2/Check").disabled = true
+		get_node("PlayerSpace/HumanActions/HBoxContainer2/Fold").disabled = true

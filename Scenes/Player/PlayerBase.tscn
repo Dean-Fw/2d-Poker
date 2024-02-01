@@ -1,28 +1,26 @@
 [gd_scene load_steps=3 format=3 uid="uid://dg82vswbfskf0"]
 
-[ext_resource type="Script" path="res://Scenes/Player/Player.gd" id="1_mpbuf"]
-[ext_resource type="Texture2D" uid="uid://dmie75xs6x1jd" path="res://Chips.png" id="2_82ftf"]
+[ext_resource type="Script" path="res://Scenes/Player/PlayerScript.gd" id="1_eqeby"]
+[ext_resource type="PackedScene" uid="uid://gxorj8d0estk" path="res://Scenes/Chip/chips_info.tscn" id="2_0wy6i"]
 
-[node name="Player" type="HBoxContainer"]
-offset_right = 301.0
-offset_bottom = 66.0
+[node name="Player" type="VBoxContainer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -63.0
+offset_right = 40.0
+grow_vertical = 0
 alignment = 1
-script = ExtResource("1_mpbuf")
+script = ExtResource("1_eqeby")
 
-[node name="ChipsInfo" type="VBoxContainer" parent="."]
+[node name="ChipSpace" type="HBoxContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
 
-[node name="ChipsGraphics" type="TextureRect" parent="ChipsInfo"]
+[node name="PlayerSpace" type="HBoxContainer" parent="."]
 layout_mode = 2
-texture = ExtResource("2_82ftf")
 
-[node name="ChipCount" type="Label" parent="ChipsInfo"]
+[node name="ChipsInfo" parent="PlayerSpace" instance=ExtResource("2_0wy6i")]
 layout_mode = 2
-text = "500"
-horizontal_alignment = 1
 
-[node name="Cards" type="HBoxContainer" parent="."]
+[node name="Cards" type="HBoxContainer" parent="PlayerSpace"]
 layout_mode = 2

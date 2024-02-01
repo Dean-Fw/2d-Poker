@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg2mptqqrl4hn"]
+
+[ext_resource type="Texture2D" uid="uid://dde3watfulaxd" path="res://Assets/pokerchip.jpg" id="1_gct6b"]
+[ext_resource type="Script" path="res://Scenes/Chip/Chip.gd" id="1_pb3ju"]
+
+[node name="Chip" type="HBoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -11.0
+offset_right = 141.0
+offset_bottom = 92.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pb3ju")
+
+[node name="ChipImage" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_gct6b")
+expand_mode = 2
+
+[node name="ChipValue" type="Label" parent="."]
+layout_mode = 2

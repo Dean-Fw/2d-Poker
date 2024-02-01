@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://07twer40e5ku"]
+[gd_scene load_steps=6 format=3 uid="uid://07twer40e5ku"]
 
-[ext_resource type="Texture2D" uid="uid://dvwnrd0seyfio" path="res://Poker-Table.jpg" id="1_2g61k"]
+[ext_resource type="Texture2D" uid="uid://dvwnrd0seyfio" path="res://Assets/Poker-Table.jpg" id="1_2g61k"]
+[ext_resource type="Script" path="res://Scenes/Table/GameManager.gd" id="2_mkpx8"]
 [ext_resource type="PackedScene" uid="uid://buv0gj7c61xn6" path="res://Scenes/Player/HumanPlayer.tscn" id="3_nxc1h"]
 [ext_resource type="Script" path="res://Scenes/Dealer/Dealer.gd" id="3_s63rv"]
 [ext_resource type="PackedScene" uid="uid://dg82vswbfskf0" path="res://Scenes/Player/PlayerBase.tscn" id="4_8n22t"]
@@ -12,6 +13,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_2g61k")
+
+[node name="Players" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 1919.0
+offset_bottom = 1076.0
+columns = 2
+
+[node name="HumanPlayer" parent="Players" instance=ExtResource("3_nxc1h")]
+layout_mode = 2
+
+[node name="Player" parent="Players" instance=ExtResource("4_8n22t")]
+layout_mode = 2
+
+[node name="Player2" parent="Players" instance=ExtResource("4_8n22t")]
+layout_mode = 2
+
+[node name="GameManager" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_mkpx8")
 
 [node name="Dealer" type="Control" parent="."]
 anchors_preset = 0
@@ -26,13 +48,5 @@ offset_top = 476.0
 offset_right = 1215.0
 offset_bottom = 601.0
 
-[node name="Players" type="GridContainer" parent="."]
-layout_mode = 0
-offset_right = 1919.0
-offset_bottom = 650.0
-
-[node name="HumanPlayer" parent="Players" instance=ExtResource("3_nxc1h")]
-layout_mode = 2
-
-[node name="Player" parent="Players" instance=ExtResource("4_8n22t")]
-layout_mode = 2
+[connection signal="folded" from="Players/HumanPlayer" to="GameManager" method="_on_human_player_folded"]
+[connection signal="change_players_turn" from="GameManager" to="Players/HumanPlayer" method="_on_game_manager_change_players_turn"]
