@@ -1,25 +1,28 @@
 [gd_scene load_steps=3 format=3 uid="uid://buv0gj7c61xn6"]
 
-[ext_resource type="PackedScene" uid="uid://dg82vswbfskf0" path="res://Scenes/Player/PlayerBase.tscn" id="1_6rq8b"]
+[ext_resource type="PackedScene" uid="uid://dg82vswbfskf0" path="res://Scenes/Player/ComputerPlayer.tscn" id="1_fuluo"]
 [ext_resource type="Script" path="res://Scenes/Player/HumanPlayer.gd" id="2_w8mko"]
 
-[node name="HumanPlayer" instance=ExtResource("1_6rq8b")]
+[node name="HumanPlayer" instance=ExtResource("1_fuluo")]
 script = ExtResource("2_w8mko")
 
-[node name="HumanActions" type="VBoxContainer" parent="PlayerSpace" index="2"]
+[node name="HumanActions" type="GridContainer" parent="PlayerSpace" index="2"]
 layout_mode = 2
+columns = 2
 
-[node name="BetOrRaise" type="Button" parent="PlayerSpace/HumanActions" index="0"]
+[node name="Bet" type="Button" parent="PlayerSpace/HumanActions" index="0"]
 layout_mode = 2
 focus_mode = 0
 disabled = true
 text = "Bet"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PlayerSpace/HumanActions" index="1"]
+[node name="Raise" type="Button" parent="PlayerSpace/HumanActions" index="1"]
 layout_mode = 2
-alignment = 1
+focus_mode = 0
+disabled = true
+text = "Raise"
 
-[node name="Fold" type="Button" parent="PlayerSpace/HumanActions/HBoxContainer2" index="0"]
+[node name="Fold" type="Button" parent="PlayerSpace/HumanActions" index="2"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -27,7 +30,7 @@ disabled = true
 text = "Fold
 "
 
-[node name="Check" type="Button" parent="PlayerSpace/HumanActions/HBoxContainer2" index="1"]
+[node name="Check" type="Button" parent="PlayerSpace/HumanActions" index="3"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -35,5 +38,6 @@ disabled = true
 text = "Check"
 
 [connection signal="child_entered_tree" from="PlayerSpace/Cards" to="." method="_on_cards_child_entered_tree"]
-[connection signal="pressed" from="PlayerSpace/HumanActions/BetOrRaise" to="." method="_on_bet_or_raise_pressed"]
-[connection signal="pressed" from="PlayerSpace/HumanActions/HBoxContainer2/Fold" to="." method="_on_fold_pressed"]
+[connection signal="pressed" from="PlayerSpace/HumanActions/Bet" to="." method="_on_bet_pressed"]
+[connection signal="pressed" from="PlayerSpace/HumanActions/Raise" to="." method="_on_raise_pressed"]
+[connection signal="pressed" from="PlayerSpace/HumanActions/Fold" to="." method="_on_fold_pressed"]

@@ -3,7 +3,15 @@
 [ext_resource type="Texture2D" uid="uid://qyt4pgh2oqc0" path="res://Assets/DealerChip.jpg" id="1_0qgwm"]
 
 [node name="DealerChip" type="TextureRect"]
-offset_right = 41.0
-offset_bottom = 42.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.0
+offset_top = -86.0
+offset_right = 78.0
+offset_bottom = 86.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("1_0qgwm")
-expand_mode = 4

@@ -8,15 +8,21 @@ extends VBoxContainer
 @export var chip_count: int
 
 signal folded
+signal betted(player: Player, new_min_bet: int)
+signal checked
 
 const card_scene = preload("res://Scenes/Card/Card.tscn")
 const chips_scene = preload("res://Scenes/Chip/Chip.tscn")
 var card_holder: HBoxContainer
 var chips_holder: VBoxContainer
+
+@export var min_bet: int
+@export var current_bet: int
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_ready_card_holder()
-	_ready_chips()
+	chips_holder = get_node("PlayerSpace/ChipsInfo") 
+	_set_chip_count(500)
 
 ## gets card holder ready for game start
 func _ready_card_holder() -> void:
@@ -24,10 +30,10 @@ func _ready_card_holder() -> void:
 	_add_place_holder_cards()
 
 ## gets chips ready for game start
-func _ready_chips() -> void:
-	chip_count = 500
-	chips_holder = get_node("PlayerSpace/ChipsInfo") 
+func _set_chip_count(new_chip_count:int) -> Player:
+	chip_count = new_chip_count
 	chips_holder.get_node("ChipCount").text = str(chip_count)
+	return self
 
 ## Adds empty Cards to holders
 func _add_place_holder_cards() -> void:
@@ -65,12 +71,17 @@ func _fold_cards() -> void:
 	
 ## Removes amount to be bet from chip count and places on table
 func _bet_chips(amount_to_bet: int) -> void:
-	var chip_inst = chips_scene.instantiate()._set_value(amount_to_bet) as Chip
-	get_node("ChipSpace").add_child(chip_inst)
-	chips_holder.get_node("ChipCount").text = str(int(chips_holder.get_node("ChipCount").text) - amount_to_bet)
-
-func _on_game_manager_change_players_turn(player: Player):
-	if player == self:
-		is_players_turn = true
+	if get_node("ChipSpace").has_node("Chip"):
+		var chip = get_node("ChipSpace/Chip") as Chip
+		chip._set_value(chip.amount + amount_to_bet)
 	else:
-		is_players_turn = false
+		var chip_inst = chips_scene.instantiate()._set_value(amount_to_bet) as Chip
+		get_node("ChipSpace").add_child(chip_inst)
+	chips_holder.get_node("ChipCount").text = str(int(chips_holder.get_node("ChipCount").text) - amount_to_bet)
+	chip_count -= amount_to_bet
+	current_bet += amount_to_bet
+	
+func _bet(amount_to_bet) -> void:
+	_bet_chips(amount_to_bet)
+	betted.emit(get_node("ChipSpace/Chip").amount)
+
