@@ -1,120 +1,69 @@
 class_name ShowDownManager
 
-extends  Control
+enum hand_rankings {pair = 1 , two_pair, three_of_a_kind, straight, flush, four_of_a_kind, full_house, straight_flush, royal_flush}
+var _hands: Array[Hand]
+var winning_players:  Array[Player]
 
-## suit index - value key: 0 - hearts, 1 - spades, 2 - diamonds, 3 - clubs
-enum suits {hearts, spades, diamonds, clubs}
-enum hist_type {value, suit}
 
-##TEMP
-const dealer_scene = preload("res://Scenes/Dealer/Dealer.tscn")
-var Hand: Array[CardClass]
+func _init(hands: Array[Hand]):
+	_hands = hands
+	_rank_hands()
+	_set_winning_players()
 
-func _ready():
-	var dealer_inst = dealer_scene.instantiate() as Dealer
-	add_child(dealer_inst)
-	for card in range(7):
-		var dealt_card = dealer_inst._pick_up_card()
-		Hand.append(dealt_card)
-		print("Value: " + str(dealt_card.value) + " Suit: " + str(dealt_card.suit))
-	print("-----------------")
-	print("is pair: " + str(_is_pair()))
-	print("is two pair: " + str(_is_two_pair()))
-	print("is three of a kind: " + str(_is_three_of_a_kind()))
-	print("is straight: " + str(_is_straight()))
-	print("is flush: " + str(_is_flush()))
-	print("is four of a kind: " + str(_is_four_of_a_kind()))
-	print("is full house: " + str(_is_full_house()))
-	print("is straight flush: " + str(_is_straight_flush()))
-	print("is royal flush: " + str(_is_royal_flush()))
-	
-	
-func _create_empty_histogram(type: int) -> Array[int]:
-	var hist: Array[int] = [] 
-	if type == hist_type.value:
-		hist.resize(13)
-	elif type == hist_type.suit:
-		hist.resize(4)
-	hist.fill(0)
-	return hist
+func _rank_hands():
+	for hand in _hands: 
+		_is_pair(hand)
+		_is_two_pair(hand)
+		_is_three_of_a_kind(hand)
+		_is_straight(hand)
+		_is_flush(hand)
+		_is_four_of_a_kind(hand)
+		_is_full_house(hand)
+		_is_straight_flush(hand)
+		_is_royal_flush(hand)
 
-func _create_suit_hist(hand: Array[CardClass]) -> Array[int]:
-	var hist = _create_empty_histogram(hist_type.suit)
-	
-	for card in hand:
-		if card.suit.to_lower() == "hearts":
-			hist[suits.hearts] += 1
-		elif card.suit.to_lower() == "spades":
-			hist[suits.spades] += 1
-		elif card.suit.to_lower() == "diamonds":
-			hist[suits.diamonds] += 1
-		elif  card.suit.to_lower() == "clubs":
-			hist[suits.clubs] += 1
-	return hist
+func _set_winning_players():
+	var best_hand: int
+	for hand in _hands:
+		if winning_players.size() == 0:
+			winning_players.append(hand.hand_owner)
+			best_hand = hand.hand_rank
+		elif hand.hand_rank > best_hand:
+			winning_players.clear()
+			winning_players.append(hand.hand_owner)
+			best_hand = hand.hand_rank
+		elif hand.hand_rank == best_hand:
+			winning_players.append(hand.hand_owner)
 
-func _create_fake_suit_hist() -> Array[int]: ## FOR TESTING PURPOSES
-	var hist = _create_empty_histogram(hist_type.suit)
-	var fake_hand: Array[String] = ["spades", "spades", "spades", "spades", "diamonds", "spades"]
-	for suit in fake_hand:
-		if suit == "hearts":
-			hist[suits.hearts] += 1
-		elif suit == "spades":
-			hist[suits.spades] += 1
-		elif suit == "diamonds":
-			hist[suits.diamonds] += 1
-		elif suit == "clubs":
-			hist[suits.clubs] += 1
-	return hist
-
-func _create_value_hist(hand: Array[CardClass]) -> Array[int]:
-	var hist = _create_empty_histogram(hist_type.value)
-	
-	for card in hand:
-		hist[card.value - 1] += 1
-	return hist
-
-func _create_fake_value_hist() -> Array[int]: ## FOR TESTING PURPOSES
-	var hist = _create_empty_histogram(hist_type.value)
-	var fake_hand = [1,9,11,12,13,7,8]
-	for value in fake_hand:
-		hist[value-1] += 1
-	return hist
-
-func _find_num_pairs() -> int:
-	var value_hist: Array[int] = _create_value_hist(Hand)
+func _find_num_pairs(hand: Hand) -> int:
 	var num_of_pairs: int
 	
-	for value_count in value_hist:
+	for value_count in hand.hand_value_hist:
 		if value_count == 2:
 			num_of_pairs += 1
 	return num_of_pairs
 
-func _is_pair() -> bool:
-	if _find_num_pairs() == 1:
-		return true
-	return false
+func _is_pair(hand: Hand) -> void:
+	if _find_num_pairs(hand) == 1:
+		hand._set_hand_rank(hand_rankings.pair)
 
-func _is_two_pair() -> bool:
-	if _find_num_pairs() == 2:
-		return true
-	return false
+func _is_two_pair(hand: Hand) -> void:
+	if _find_num_pairs(hand) == 2:
+		hand._set_hand_rank(hand_rankings.two_pair)
 
-func _is_three_of_a_kind() -> bool:
-	var value_hist: Array[int] = _create_value_hist(Hand)
-	
-	for value_count in value_hist:
+func _is_three_of_a_kind(hand: Hand) -> void:
+	for value_count in hand.hand_value_hist:
 		if value_count == 3:
-			return true
-	return false
+			hand._set_hand_rank(hand_rankings.three_of_a_kind)
 
-func _is_straight() -> bool:
-	var value_hist: Array[int] = _create_value_hist(Hand)
+func _find_straight(hand: Hand) -> bool:
 	var curernt_run: int = 1
 	var best_run: int
-	for value_count_index in range(value_hist.size()):
-		if (value_count_index + 1 > value_hist.size() - 1) and (value_hist[value_count_index] != 0 and value_hist[0] != 0):
+	
+	for value_count_index in range(hand.hand_value_hist.size() -1):
+		if (value_count_index + 1 > hand.hand_value_hist.size() - 1) and (hand.hand_value_hist[value_count_index] != 0 and hand.hand_value_hist[0] != 0):
 			curernt_run += 1
-		elif value_hist[value_count_index] != 0 and value_hist[value_count_index + 1] != 0:
+		elif hand.hand_value_hist[value_count_index] != 0 and hand.hand_value_hist[value_count_index + 1] != 0:
 			curernt_run += 1
 		else:
 			if best_run < curernt_run:
@@ -124,37 +73,50 @@ func _is_straight() -> bool:
 			best_run = curernt_run
 	return best_run >= 5
 
-func _is_flush() -> bool:
-	var suit_hist = _create_suit_hist(Hand)
+func _is_straight(hand: Hand) -> void:
+	if _find_straight(hand) == true: 
+		hand._set_hand_rank(hand_rankings.straight)
 
-	for suit_count in suit_hist:
-		if suit_count >= 4:
+func _is_flush(hand: Hand) -> void:
+	if _find_flush(hand) == true: 
+		hand._set_hand_rank(hand_rankings.flush)
+
+func _find_flush(hand: Hand) -> bool:
+	for suit_count in hand.hand_suit_hist:
+		if suit_count >= 5:
 			return true
 	return false
 
-func _is_four_of_a_kind() -> bool:
-	var value_hist = _create_value_hist(Hand)
-	
-	for value_count in value_hist:
+func _is_four_of_a_kind(hand: Hand) -> void:
+	for value_count in hand.hand_value_hist:
 		if value_count == 4:
-			return true
-	return false
+			hand._set_hand_rank(hand_rankings.four_of_a_kind)
 
-func _is_full_house() -> bool:
-	return _is_three_of_a_kind() and _is_pair()
+func _is_full_house(hand: Hand) -> void:
+	var is_three_of_a_kind: bool
+	var is_pair: bool
+	
+	for value_count in hand.hand_value_hist:
+		if value_count == 3:
+			is_three_of_a_kind = true
+		if value_count == 2:
+			is_pair = true
+	if is_three_of_a_kind == true and is_pair == true: 
+		hand._set_hand_rank(hand_rankings.full_house)
 
-func _is_straight_flush() -> bool:
-	return _is_straight() and _is_flush()
+func _is_straight_flush(hand: Hand) -> void:
+	if _find_straight(hand) == true and _find_flush(hand) == true: 
+		hand._set_hand_rank(hand_rankings.straight_flush)
 
-func _is_royal_flush() -> bool:
-	var value_hist = _create_value_hist(Hand)
+func _is_royal_flush(hand: Hand) -> void:
 	var curernt_run: int = 1
-	for value_count_index in range(9,13):
-		if (value_count_index + 1 > value_hist.size() - 1) and (value_hist[value_count_index] != 0 and value_hist[0] != 0):
+	for value_count_index in range(9,12): 
+		if (value_count_index + 1 > hand.hand_value_hist.size() - 1) and (hand.hand_value_hist[value_count_index] != 0 and hand.hand_value_hist[0] != 0):
 			curernt_run += 1
-		elif value_hist[value_count_index] != 0 and value_hist[value_count_index + 1] != 0:
+		elif hand.hand_value_hist[value_count_index] != 0 and hand.hand_value_hist[value_count_index + 1] != 0:
 			curernt_run += 1
 		else:
 			curernt_run = 1
-	return curernt_run >= 5 and _is_flush()
+	if curernt_run >= 5 and _find_flush(hand): 
+		hand._set_hand_rank(hand_rankings.royal_flush)
 

@@ -3,11 +3,11 @@ class_name Dealer
 extends Control
 
 var deck = preload("res://Scenes/Deck/Deck.tscn")
-var center_of_table: HBoxContainer
-var deck_inst
+var center_of_table: CenterOfTable
+var deck_inst: Deck
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	center_of_table = get_node("../CenterOfTable")
+	center_of_table = get_node("../CenterOfTable") as CenterOfTable
 	deck_inst = deck.instantiate() as Deck
 	add_child(deck_inst)
 
@@ -26,6 +26,7 @@ func _deal_to_table(amount_of_cards_to_deal: int):
 	for card in range(amount_of_cards_to_deal):
 		var card_to_deal = _pick_up_card()
 		card_to_deal._turn_card()
-		center_of_table.add_child(card_to_deal)
+		center_of_table._append_community_cards(card_to_deal)
 		
-		
+func _regenerate_deck() -> void:
+	deck_inst._fill_deck()

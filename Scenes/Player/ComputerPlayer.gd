@@ -10,7 +10,7 @@ func _on_game_manager_change_players_turn(player: Player, current_min_bet: int):
 		is_players_turn = false
 
 func _perform_random_action() -> void:
-	const actions = ["bet", "raise", "fold"]
+	const actions = ["bet", "raise"]
 	var action = actions.pick_random()
 	if action == "bet":
 		_bet(min_bet - current_bet)
