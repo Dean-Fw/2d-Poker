@@ -13,6 +13,7 @@ var current_blind: int = 5
 var current_min_bet: int
 
 var role_manager: RoleManager
+var show_down_manager: ShowDownManager
 var dealer: Dealer
 
 var center_of_table: HBoxContainer
@@ -131,7 +132,7 @@ func _start_river() -> void:
 	dealer._deal_to_table(1)
 	
 func _start_show_down() -> void:
-	pass
+	show_down_manager = ShowDownManager.new()
 	
 func _end_round(winner: Player) -> void:
 	_give_pot_to_winner(winner)

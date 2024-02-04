@@ -1,7 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://c61fno6em4xf5"]
+[gd_scene load_steps=3 format=3 uid="uid://c61fno6em4xf5"]
 
 [ext_resource type="PackedScene" uid="uid://07twer40e5ku" path="res://Scenes/Table/Table.tscn" id="2_0tn50"]
+[ext_resource type="Script" path="res://Scripts/ShowDownManager.gd" id="2_ft50w"]
 
 [node name="PokerGame" type="Node"]
 
 [node name="Table" parent="." instance=ExtResource("2_0tn50")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_ft50w")

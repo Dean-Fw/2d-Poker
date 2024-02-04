@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://osbhj76v2qju"]
+
+[ext_resource type="Script" path="res://Scenes/Dealer/Dealer.gd" id="1_15wct"]
+
+[node name="Dealer" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_15wct")
