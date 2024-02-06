@@ -9,6 +9,7 @@ func _on_cards_child_entered_tree(node: CardClass) -> void:
 	_show_cards()
 
 func _on_bet_pressed() -> void:
+	print("Bet")
 	_bet(min_bet - current_bet)
 
 func _on_raise_pressed() -> void:
