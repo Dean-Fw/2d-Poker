@@ -8,16 +8,26 @@ var hand_owner: Player
 @export var hand_value_hist: Array[int]
 @export var hand_suit_hist: Array[int]
 @export var hand_rank: int
+@export var player_cards_only_values: Array[int]
 
-func _init(player: Player, cards: Array[CardClass]):
+
+func _init(player: Player, player_cards: Array[CardClass], table_cards: Array[CardClass]):
 	hand_owner = player
-	hand_value_hist = _create_value_hist(cards)
-	hand_suit_hist = _create_suit_hist(cards)
+	player_cards_only_values = _set_highest_player_card(player_cards)
+	hand_value_hist = _create_value_hist(player_cards + table_cards)
+	hand_suit_hist = _create_suit_hist(player_cards + table_cards)
 	
 func _set_hand_rank(new_hand_rank: int) -> void:
 	if new_hand_rank > hand_rank:
 		hand_rank = new_hand_rank
 	
+func _set_highest_player_card(player_cards: Array[CardClass]) -> Array[int]:
+	var values: Array[int]
+	for card in player_cards:
+		values.append(card.value)
+	return values
+		
+
 func _create_empty_histogram(type: int) -> Array[int]:
 	var hist: Array[int] = [] 
 	if type == hist_type.value:

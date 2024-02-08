@@ -124,7 +124,6 @@ func _start_show_down() -> void:
 	
 	
 func _end_round(winners: Array[Player]) -> void:
-	print("---ROUND END---")
 	_give_pot_to_winner(winners)
 	_clear_table()
 	current_blind = current_blind * 2
@@ -138,7 +137,7 @@ func _end_round(winners: Array[Player]) -> void:
 func _create_hands() -> Array[Hand]:
 	var hands: Array[Hand]
 	for player in active_players:
-		var hand = Hand.new(player, player.player_hand + center_of_table.community_cards)
+		var hand = Hand.new(player, player.player_hand, center_of_table.community_cards)
 		hands.append(hand)
 	return hands
 	

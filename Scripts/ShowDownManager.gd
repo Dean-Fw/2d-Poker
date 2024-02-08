@@ -1,14 +1,16 @@
 class_name ShowDownManager
 
-enum hand_rankings {pair = 1 , two_pair, three_of_a_kind, straight, flush, four_of_a_kind, full_house, straight_flush, royal_flush}
+enum hand_rankings {high_card, pair, two_pair, three_of_a_kind, straight, flush, four_of_a_kind, full_house, straight_flush, royal_flush}
 var _hands: Array[Hand]
 var winning_players:  Array[Player]
 
+var winning_hand: String
 
 func _init(hands: Array[Hand]):
 	_hands = hands
 	_rank_hands()
 	_set_winning_players()
+	print(winning_hand)
 
 func _rank_hands():
 	for hand in _hands: 
@@ -34,6 +36,21 @@ func _set_winning_players():
 			best_hand = hand.hand_rank
 		elif hand.hand_rank == best_hand:
 			winning_players.append(hand.hand_owner)
+	if best_hand == 0:
+		_find_highest_card(_hands)
+	winning_hand = hand_rankings.keys()[best_hand]
+
+func _find_highest_card(hands: Array[Hand]) -> void:
+	var best_card: int
+	winning_players.clear()
+	for hand in hands:
+		for value in hand.player_cards_only_values:
+			if value > best_card:
+				winning_players.clear()
+				best_card = value
+				winning_players.append(hand.hand_owner)
+			elif value == best_card:
+				winning_players.append(hand.hand_owner)
 
 func _find_num_pairs(hand: Hand) -> int:
 	var num_of_pairs: int
