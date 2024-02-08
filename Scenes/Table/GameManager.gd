@@ -53,19 +53,22 @@ func _set_current_player(player: Player) -> void:
 	current_player = player
 	current_player_index = active_players.find(current_player)
 	if _check_if_betting_is_done() == true: _end_betting_round()
-	change_players_turn.emit(player, current_min_bet)
+	current_player._start_turn(current_min_bet)
 	
 func _change_turns() -> void:
+	current_player._end_turn()
 	if active_players.size() == 1:
 		_end_betting_round()
+		return
 	current_player_index += 1
 	if current_player_index > active_players.size() -1:
 		current_player_index = 0
 	_set_current_player(active_players[current_player_index])
 
 func _check_if_betting_is_done() -> bool:
-	return current_player == role_manager.under_the_gun and (current_player.current_bet == current_min_bet and current_player)
-		
+	if current_player == role_manager.under_the_gun and (current_player.current_bet == current_min_bet):
+		return true
+	return false
 
 func _on_player_folded(player: Player) -> void:
 	if player == role_manager.under_the_gun:
@@ -73,7 +76,7 @@ func _on_player_folded(player: Player) -> void:
 	active_players.remove_at(active_players.find(player))
 	_change_turns()
 	
-func _on_player_betted(new_min_bet: int):
+func _on_player_betted(player:Player, new_min_bet: int):
 	current_min_bet = new_min_bet
 	_change_turns()
 
@@ -121,6 +124,7 @@ func _start_show_down() -> void:
 	
 	
 func _end_round(winners: Array[Player]) -> void:
+	print("---ROUND END---")
 	_give_pot_to_winner(winners)
 	_clear_table()
 	current_blind = current_blind * 2
@@ -148,8 +152,3 @@ func _clear_table() -> void:
 		player._add_place_holder_cards()
 	role_manager._remove_dealer_chip()
 	center_of_table._clear_table()
-
-
-
-func _on_human_player_folded():
-	pass # Replace with function body.

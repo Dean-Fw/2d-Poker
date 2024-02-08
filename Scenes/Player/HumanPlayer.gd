@@ -9,22 +9,21 @@ func _on_cards_child_entered_tree(node: CardClass) -> void:
 	_show_cards()
 
 func _on_bet_pressed() -> void:
-	print("Bet")
 	_bet(min_bet - current_bet)
 
 func _on_raise_pressed() -> void:
 	_bet(min_bet * 2)
 
-func _on_game_manager_change_players_turn(player: Player, current_min_bet: int) -> void:
+func _start_turn(current_min_bet: int) -> void:
 	min_bet = current_min_bet
-	if player == self:
-		is_players_turn = true
-		_change_action_buttons_disabled(false)
-		_change_bet_buttons_text_to_have_value()
-	else:
-		is_players_turn = false
-		_change_action_buttons_disabled(true)
-		_change_bet_buttons_text_to_have_value()
+	is_players_turn = true
+	_change_action_buttons_disabled(false)
+	_change_bet_buttons_text_to_have_value()
+	
+func _end_turn() -> void:
+	is_players_turn = false
+	_change_action_buttons_disabled(true)
+	_change_bet_buttons_text_to_have_value()
 
 func _change_bet_buttons_text_to_have_value() -> void:
 	var buttons = [get_node("PlayerSpace/HumanActions/Bet"), get_node("PlayerSpace/HumanActions/Raise")] as Array[Button]

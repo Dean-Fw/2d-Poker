@@ -90,5 +90,5 @@ func _bet_chips(amount_to_bet: int) -> void:
 	
 func _bet(amount_to_bet) -> void:
 	_bet_chips(amount_to_bet)
-	betted.emit(get_node("ChipSpace/Chip").amount)
+	betted.emit(self, get_node("ChipSpace/Chip").amount)
 
