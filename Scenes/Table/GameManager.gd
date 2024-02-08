@@ -119,7 +119,7 @@ func _start_river() -> void:
 	dealer._deal_to_table(1)
 	
 func _start_show_down() -> void:
-	var show_down_manager = ShowDownManager.new(_create_hands())
+	var show_down_manager = ShowDownManager.new(_create_hands(), center_of_table.community_cards)
 	_end_round(show_down_manager.winning_players)
 	
 	
